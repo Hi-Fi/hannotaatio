@@ -190,6 +190,6 @@ DEPENDENCIES
   rails (= 4.1.0)
   rails4_upgrade!
   rails_admin!
-  rake (!= 0.9.0)
+  rake
   settingslogic
   sqlite3
