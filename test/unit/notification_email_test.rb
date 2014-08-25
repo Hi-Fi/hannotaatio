@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: notification_emails
+#
+#  id            :integer          not null, primary key
+#  email         :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  annotation_id :integer
+#
+
 require 'test_helper'
 
 class NotificationEmailTest < ActiveSupport::TestCase

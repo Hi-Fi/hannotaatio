@@ -1,9 +1,20 @@
+# == Schema Information
+#
+# Table name: api_keys
+#
+#  id         :integer          not null, primary key
+#  api_key    :string(255)
+#  email      :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class ApiKey < ActiveRecord::Base
   has_many :annotation, :dependent => :destroy
   
   validates :api_key, :presence => true, :uniqueness => true
-  validates :email, :presence => true, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i,
-                                :message => 'must be valid' }, :allow_nil => true
+  validates :email, :presence => true, 
+				    :email_format => {:message => 'must be valid' }
   
   before_validation :generate_api_key
   

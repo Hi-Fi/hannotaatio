@@ -16,6 +16,12 @@ gem 'mysql'
 #http://tzinfo.github.io/datasourcenotfound
 gem 'tzinfo-data'
 
+#email address validation
+gem 'validates_email_format_of'
+
+#Annotations to models
+gem 'annotate', '~> 2.6.5'
+
 # Settingslogic
 gem 'settingslogic'
 

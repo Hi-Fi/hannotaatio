@@ -1,8 +1,20 @@
+# == Schema Information
+#
+# Table name: notification_emails
+#
+#  id            :integer          not null, primary key
+#  email         :string(255)
+#  created_at    :datetime
+#  updated_at    :datetime
+#  annotation_id :integer
+#
+
 class NotificationEmail < ActiveRecord::Base
   belongs_to :annotation
   
   validates :email, presence: true
-  validates :email, :presence => true, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :message => 'email must be valid' }
+  validates :email, :presence => true, 
+				    :email_format => {:message => 'must be valid' }
   
   before_validation :replace_at_and_dot
   

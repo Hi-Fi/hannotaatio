@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -8,11 +9,11 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110708084834) do
+ActiveRecord::Schema.define(version: 20110708084834) do
 
-  create_table "annotations", :force => true do |t|
+  create_table "annotations", force: true do |t|
     t.string   "uuid"
     t.string   "site_name"
     t.datetime "capture_time"
@@ -25,14 +26,14 @@ ActiveRecord::Schema.define(:version => 20110708084834) do
     t.integer  "api_key_id"
   end
 
-  create_table "api_keys", :force => true do |t|
+  create_table "api_keys", force: true do |t|
     t.string   "api_key"
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "captured_files", :force => true do |t|
+  create_table "captured_files", force: true do |t|
     t.string   "path"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -40,31 +41,31 @@ ActiveRecord::Schema.define(:version => 20110708084834) do
     t.integer  "annotation_id"
   end
 
-  create_table "hannotations", :force => true do |t|
+  create_table "hannotations", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
     t.text     "body"
     t.integer  "annotation_id"
   end
 
-  create_table "notification_emails", :force => true do |t|
+  create_table "notification_emails", force: true do |t|
     t.string   "email"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "annotation_id"
   end
 
-  create_table "rails_admin_histories", :force => true do |t|
+  create_table "rails_admin_histories", force: true do |t|
     t.string   "message"
     t.string   "username"
     t.integer  "item"
     t.string   "table"
-    t.integer  "month",      :limit => 2
-    t.integer  "year",       :limit => 5
+    t.integer  "month",      limit: 2
+    t.integer  "year",       limit: 5
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_histories_on_item_and_table_and_month_and_year"
+  add_index "rails_admin_histories", ["item", "table", "month", "year"], name: "index_histories_on_item_and_table_and_month_and_year"
 
 end

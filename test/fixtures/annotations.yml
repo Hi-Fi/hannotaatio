@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: annotations
+#
+#  id           :integer          not null, primary key
+#  uuid         :string(255)
+#  site_name    :string(255)
+#  capture_time :datetime
+#  captured_url :string(255)
+#  created_at   :datetime
+#  updated_at   :datetime
+#  body_width   :decimal(, )
+#  body_height  :decimal(, )
+#  browser      :string(255)
+#  api_key_id   :integer
+#
+
 # Read about fixtures at http://ar.rubyonrails.org/classes/Fixtures.html
 
 one:
