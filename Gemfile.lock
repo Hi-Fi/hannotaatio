@@ -55,15 +55,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
-    aws-s3 (0.6.2)
-      builder
-      mime-types
-      xml-simple
-    aws-ses (0.5.0)
-      builder
-      mail (> 2.2.5)
-      mime-types
-      xml-simple
+    aws-sdk (1.51.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.7)
     bcrypt (3.1.7-x86-mingw32)
     builder (3.2.2)
@@ -172,17 +166,17 @@ GEM
       polyglot (>= 0.3.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
+    tzinfo-data (1.2014.6)
+      tzinfo (>= 1.0.0)
     warden (1.2.3)
       rack (>= 1.0)
-    xml-simple (1.1.4)
 
 PLATFORMS
   ruby
   x86-mingw32
 
 DEPENDENCIES
-  aws-s3
-  aws-ses
+  aws-sdk
   debugger
   devise
   httpclient
@@ -193,3 +187,4 @@ DEPENDENCIES
   rake
   settingslogic
   sqlite3
+  tzinfo-data

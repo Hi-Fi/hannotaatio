@@ -13,12 +13,14 @@ gem 'debugger'
 # MySQL database
 gem 'mysql'
 
+#http://tzinfo.github.io/datasourcenotfound
+gem 'tzinfo-data'
+
 # Settingslogic
 gem 'settingslogic'
 
 # Amazon S3 and SES
-gem 'aws-s3'
-gem "aws-ses"
+gem 'aws-sdk'
 
 # Admin interface
 gem 'devise' # Devise must be required before RailsAdmin
@@ -32,10 +34,6 @@ gem 'httpclient'
 
 # Deploy with Capistrano
 # gem 'capistrano'
-
-# To use debugger (ruby-debug for Ruby 1.8.7+, ruby-debug19 for Ruby 1.9.2+)
-# gem 'ruby-debug'
-# gem 'ruby-debug19'
 
 # Bundle the extra gems:
 # gem 'bj'
