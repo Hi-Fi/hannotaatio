@@ -1,13 +1,13 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.8'
+gem 'rails4_upgrade', github: 'alindeman/rails4_upgrade'
+gem 'rails', '4.1.0'
 gem 'rake', '!= 0.9.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-#gem 'ruby-debug19', :require => 'ruby-debug'
 gem 'debugger'
 
 # MySQL database
@@ -18,10 +18,10 @@ gem 'settingslogic'
 
 # Amazon S3 and SES
 gem 'aws-s3'
-gem "aws-ses", "~> 0.4.3", :require => 'aws/ses'
+gem "aws-ses"
 
 # Admin interface
-gem 'devise', '1.4.2' # Devise must be required before RailsAdmin
+gem 'devise' # Devise must be required before RailsAdmin
 gem 'rails_admin', :git => 'git://github.com/sferik/rails_admin.git'
 
 # HTTP Client
