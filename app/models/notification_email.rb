@@ -1,7 +1,8 @@
 class NotificationEmail < ActiveRecord::Base
   belongs_to :annotation
   
-  validates :email, :presence => true, :format => { :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => 'email must be valid' }
+  validates :email, presence: true
+  validates :email, :presence => true, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :message => 'email must be valid' }
   
   before_validation :replace_at_and_dot
   

@@ -6,8 +6,8 @@ HannotaatioServerNew::Application.routes.draw do
     
       resources :annotations, :only => [:index, :create], :controller => :hannotations
     
-      match "/capture" =>       "captured_files#index", :via => :get
-      match "/capture/*path" => "captured_files#show", :via => :get
+      get "/capture" =>       "captured_files#index", :via => :get
+      get "/capture/*path" => "captured_files#show", :via => :get
     
     end
   
@@ -15,6 +15,6 @@ HannotaatioServerNew::Application.routes.draw do
   
   end
   
-  match "/view/:uuid" => "view#index"
+  get "/view/:uuid" => "view#index"
 
 end

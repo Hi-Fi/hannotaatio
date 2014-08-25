@@ -6,7 +6,7 @@
 
 
 # Hannotation requires some mime types to be registered:
-Mime::Type.register "image/png", :png
-Mime::Type.register "image/gif", :gif
+#Mime::Type.register "image/png", :png
+#Mime::Type.register "image/gif", :gif
 Mime::Type.register "image/jpg", :jpg
-Mime::Type.register_alias "image/jpg", :jpeg
+#Mime::Type.register_alias "image/jpg", :jpeg
