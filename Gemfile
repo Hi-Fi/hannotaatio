@@ -6,8 +6,9 @@ gem 'rake', '!= 0.9.0'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-gem 'sqlite3-ruby', :require => 'sqlite3'
-gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'sqlite3'
+#gem 'ruby-debug19', :require => 'ruby-debug'
+gem 'debugger'
 
 # MySQL database
 gem 'mysql'
