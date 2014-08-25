@@ -5,10 +5,18 @@ require "#{Rails.root}/lib/file_saver.rb"
 
 class FileSaverTest < ActiveSupport::TestCase
 
+  @@testType
+
   def teardown
-    FileUtils.rm_r Rails.configuration.file_storage_local_path if File.exists? Rails.configuration.file_storage_local_path
-    FileUtils.mkdir_p Rails.configuration.file_storage_local_path
-    AWS::S3::S3Object.delete("documents/test_doc.txt", Rails.configuration.s3_bucket);
+	if (@@testType=="fs") 
+		FileUtils.rm_r Rails.configuration.file_storage_local_path if File.exists? Rails.configuration.file_storage_local_path
+		FileUtils.mkdir_p Rails.configuration.file_storage_local_path
+	else
+		s3 = AWS::S3.new
+		bucket = s3.buckets[Rails.configuration.s3_bucket]
+		object = bucket.objects["documents/test_doc.txt"]
+		object.delete
+	end
   end
   
   def create_test_file_to_fs uuid, path
@@ -23,6 +31,7 @@ class FileSaverTest < ActiveSupport::TestCase
   end
 
   test "save_to_fs" do 
+	@@testType="fs"
     uuid = "1234-5678-90"
     path = "documents/test_doc.txt"
     
@@ -32,12 +41,17 @@ class FileSaverTest < ActiveSupport::TestCase
     
     # Test content
     assert_equal IO.read(newfile), "test"
-    
-    # Test symlink
-    assert_equal IO.read("#{Rails.root}/public/#{Rails.configuration.file_storage_public_path}/#{uuid}/#{path}"), "test"
+    host_os = RbConfig::CONFIG['host_os']
+	case host_os
+		when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
+			assert_equal IO.read("#{Rails.configuration.file_storage_local_path}#{uuid}/#{path}"), "test"
+		else
+			assert_equal IO.read("#{Rails.root}/public/#{Rails.configuration.file_storage_public_path}/#{uuid}/#{path}"), "test"
+	end
   end
   
   test "save_to_s3" do 
+    @@testType="s3"
     uuid = "1234-5678-90"
     path = "documents/test_doc.txt"
     
@@ -50,6 +64,7 @@ class FileSaverTest < ActiveSupport::TestCase
   end
   
   test "delete_from_fs" do
+	@@testType="fs"
     uuid = "1234-5678-90"
     path = "documents/test_doc.txt"
     path2 = "documents/test_doc2.txt"
@@ -82,6 +97,7 @@ class FileSaverTest < ActiveSupport::TestCase
   end
 
   test "delete_from_s3" do
+    @@testType="s3"
     uuid = "1234-5678-90"
     path = "documents/test_doc.txt"
     

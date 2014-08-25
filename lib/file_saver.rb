@@ -24,16 +24,14 @@ class FileSaver
   def self.save_to_s3 (uuid, path, content)
     file_extension = File.extname(path)[1..-1]
     mime_type = file_extension.nil? ? nil : Mime::Type.lookup_by_extension(file_extension)
+	
+	s3 = AWS::S3.new
+	filename = "#{uuid}/#{path}"
+	key = File.basename(filename)
+	s3.buckets[Rails.configuration.s3_bucket].acl = :public_read
+    s3.buckets[Rails.configuration.s3_bucket].objects[key].write(file: content, content_type: mime_type)
     
-    AWS::S3::S3Object.store(
-      "#{uuid}/#{path}",
-      content,
-      Rails.configuration.s3_bucket,
-      :content_type => mime_type,
-      :access => :public_read
-    )
-    
-    Rails.logger.info "File saved to S3 server: #{Rails.configuration.s3_server}, bucket: #{Rails.configuration.s3_bucket}, object: #{uuid}/#{path}"
+    Rails.logger.info "File saved to S3 region: #{Rails.configuration.s3_region}, bucket: #{Rails.configuration.s3_bucket}, object: #{uuid}/#{path}"
   end
   
   def self.delete_from_fs uuid, path
@@ -43,6 +41,9 @@ class FileSaver
   end
   
   def self.delete_from_s3 uuid, path
-    AWS::S3::S3Object.delete("#{uuid}/#{path}", Rails.configuration.s3_bucket);
+  	s3 = AWS::S3.new
+	bucket = s3.buckets[Rails.configuration.s3_bucket]
+	object = bucket.objects["#{uuid}/#{path}"]
+    object.delete
   end
 end
