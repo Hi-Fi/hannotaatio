@@ -54,7 +54,7 @@ HannotaatioServerNew::Application.configure do
   config.file_storage_local_path = "#{Rails.root}/test/tmp/captured_files/"
   
   # File storage configurations
-  config.s3_server = "s3-eu-west-1.amazonaws.com"
+  config.s3_region = "eu-west-1"
   config.s3_bucket = "futurice-hannotaatiotest-files"
   
   # Tell Action Mailer not to deliver emails to the real world.

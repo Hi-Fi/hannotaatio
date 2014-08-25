@@ -1,8 +1,7 @@
 # Default S3 host
 
-AWS::S3::Base.establish_connection!(
+s3 = AWS::S3.new(
   :access_key_id     => Keys.aws_access_key_id,
-  :secret_access_key => Keys.aws_secret_access_key
+  :secret_access_key => Keys.aws_secret_access_key,
+  :region => Rails.configuration.s3_region
 )
-
-AWS::S3::DEFAULT_HOST.replace Rails.configuration.s3_server
