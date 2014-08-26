@@ -135,15 +135,15 @@ $(document).ready(function(){
     });
 
 	test('filenameFromPath()', function() {
-        var location = "http://futurice.com/resources";
+        var location = "http://futurice.com/tests/resources";
 
         var relativeUrl = new URL('assets/image.png', location);
         var relativeUrlWithSlash = new URL('/assets/image.png', location);
-        var absoluteUrl = new URL('http://futurice.com/resources/assets/image.png', location);
+        var absoluteUrl = new URL('http://futurice.com/tests/resources/assets/image.png', location);
 
         equals(ImageCapturer.filenameFromPath(relativeUrl), 'assets_image.png');
         equals(ImageCapturer.filenameFromPath(relativeUrlWithSlash), '_assets_image.png');
-        equals(ImageCapturer.filenameFromPath(absoluteUrl), '_resources_assets_image.png');
+        equals(ImageCapturer.filenameFromPath(absoluteUrl), '_tests_resources_assets_image.png');
 
 	});
 	

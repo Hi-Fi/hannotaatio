@@ -2,13 +2,13 @@
 <html>
 <head>
   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-  <link rel="stylesheet" href="qunit.css" type="text/css" media="print, screen" />
+  <link rel="stylesheet" href="tests/qunit.css" type="text/css" media="print, screen" />
   
   <!-- Qunit -->
-  <script type="text/javascript" src="qunit.js"></script>
+  <script type="text/javascript" src="tests/qunit.js"></script>
 
   <!-- Testing utils -->
-  <script type="text/javascript" src="testing_utils.js"></script>
+  <script type="text/javascript" src="tests/testing_utils.js"></script>
 
   <!-- Firebug lite is handy for IE debugging, but sometimes it messes up the tests, for example
   	   when we are testing DOM cloning, Firebug adds some extra stuff to DOM which breaks the test -->
@@ -33,28 +33,28 @@
   <script type="text/javascript" src="../javascripts/view/EditPreferences.js"></script>
 
   <!-- Edit tool tests -->
-  <script type="text/javascript" src="tests/view/utils_test.js"></script>
-  <script type="text/javascript" src="tests/view/preferences_test.js"></script>
+  <script type="text/javascript" src="tests/tests/view/utils_test.js"></script>
+  <script type="text/javascript" src="tests/tests/view/preferences_test.js"></script>
 
   <!-- Capture tool tests -->
-  <script type="text/javascript" src="tests/capture/utils_test.js"></script>
-  <script type="text/javascript" src="tests/capture/url_test.js"></script>
-  <script type="text/javascript" src="tests/capture/preferences_test.js"></script>
-  <script type="text/javascript" src="tests/capture/capturer_test.js"></script>
-  <script type="text/javascript" src="tests/capture/stylesheet_test.js"></script>
-  <script type="text/javascript" src="tests/capture/imagecapturer_test.js"></script>
-  <script type="text/javascript" src="tests/capture/capture_ui_test.js"></script>
+  <script type="text/javascript" src="tests/tests/capture/utils_test.js"></script>
+  <script type="text/javascript" src="tests/tests/capture/url_test.js"></script>
+  <script type="text/javascript" src="tests/tests/capture/preferences_test.js"></script>
+  <script type="text/javascript" src="tests/tests/capture/capturer_test.js"></script>
+  <script type="text/javascript" src="tests/tests/capture/stylesheet_test.js"></script>
+  <script type="text/javascript" src="tests/tests/capture/imagecapturer_test.js"></script>
+  <script type="text/javascript" src="tests/tests/capture/capture_ui_test.js"></script>
 
   <!-- Style sheet testing -->
-  <link id="imageUrlCss" type="text/css" rel="stylesheet" href="resources/capture_css_test_image_url.css" />
-  <link id="printStylesheet" type="text/css" rel="stylesheet" href="resources/capture_css_test_print.css" media="print" />
-  <style id="importStyleTag" type="text/css">@import url('resources/capture_css_test_import_from_style_tag.css'); </style>
+  <link id="imageUrlCss" type="text/css" rel="stylesheet" href="tests/resources/capture_css_test_image_url.css" />
+  <link id="printStylesheet" type="text/css" rel="stylesheet" href="tests/resources/capture_css_test_print.css" media="print" />
+  <style id="importStyleTag" type="text/css">@import url('tests/resources/capture_css_test_import_from_style_tag.css'); </style>
   <style id="styletagBefore" type="text/css"></style>
-  <link type="text/css" rel="stylesheet" href="resources/capture_css_test_stylesheet.css" />
+  <link type="text/css" rel="stylesheet" href="tests/resources/capture_css_test_stylesheet.css" />
   <style id="styletagAfter" type="text/css"></style>
-  <link id="importLink" type="text/css" rel="stylesheet" href="resources/capture_css_test_import.css" />
-  <link id="recursiveImport" type="text/css" rel="stylesheet" href="resources/capture_css_test_recursive_import.css" />
-  <link id="initialStylesheet" type="text/css" rel="stylesheet" href="resources/capture_css_test_initial.css" />
+  <link id="importLink" type="text/css" rel="stylesheet" href="tests/resources/capture_css_test_import.css" />
+  <link id="recursiveImport" type="text/css" rel="stylesheet" href="tests/resources/capture_css_test_recursive_import.css" />
+  <link id="initialStylesheet" type="text/css" rel="stylesheet" href="tests/resources/capture_css_test_initial.css" />
   <style id="uniqueStyleTag" type="text/css">.unique_hannotaatio_css_rule { } </style>
 
 </head>
@@ -64,10 +64,10 @@
  <h2 id="qunit-userAgent"></h2>
  <ol id="qunit-tests"></ol>
  <div id="qunit-fixture">
- 	<img id="red_dot" src="resources/red_dot.png" />
- 	<img id="flower" src="resources/flower.jpg" />
-	<img id="flower2" src="resources/flower.jpg" />
-   <img id="not-existing-flower" src="resources/flower-not-existing.jpg" />
+ 	<img id="red_dot" src="tests/resources/red_dot.png" />
+ 	<img id="flower" src="tests/resources/flower.jpg" />
+	<img id="flower2" src="tests/resources/flower.jpg" />
+   <img id="not-existing-flower" src="tests/resources/flower-not-existing.jpg" />
 	<div id="pre-clone-test">
 		<pre>
 			&lt;script type="text/javascript"&gt;

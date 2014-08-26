@@ -1,6 +1,5 @@
 source 'http://rubygems.org'
 
-gem 'rails4_upgrade', github: 'alindeman/rails4_upgrade'
 gem 'rails', '4.1.0'
 gem 'rake'
 

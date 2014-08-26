@@ -16,7 +16,7 @@ Setting up your own Hannotaatio instance
 **Requirements**
 
 * Ruby 1.9.2
-* Rails 3.0.8
+* Rails 4.1.0
 * Amazon AWS account for S3 and SES (optional)
 
 **Installation steps**

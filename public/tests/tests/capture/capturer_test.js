@@ -110,10 +110,10 @@ $(document).ready(function(){
 		var imageURLs = capturer.getUniqueImageURLs();
 
 		equals(imageURLs.length, 4, 'Length');
-		equals(imageURLs[0].url, 'resources/red_dot.png', 'From image');
-		equals(imageURLs[1].url, 'resources/flower.jpg', 'From image, not duplicated');
-		equals(imageURLs[2].url, 'resources/flower-not-existing.jpg', 'From image, not duplicated');
-        ok(imageURLs[3].url.endsWith('resources/flower2.jpg'), 'Image from CSS stylesheet. Do not duplicate flower.jpg!');
+		equals(imageURLs[0].url, 'tests/resources/red_dot.png', 'From image');
+		equals(imageURLs[1].url, 'tests/resources/flower.jpg', 'From image, not duplicated');
+		equals(imageURLs[2].url, 'tests/resources/flower-not-existing.jpg', 'From image, not duplicated');
+        ok(imageURLs[3].url.endsWith('tests/resources/flower2.jpg'), 'Image from CSS stylesheet. Do not duplicate flower.jpg!');
 	});
 	
     test("updateImgTagUrls()", function() {
@@ -121,11 +121,11 @@ $(document).ready(function(){
         var capturer = new Capturer($('html'));
         
         var images = {
-            'resources/red_dot.png': {
-                'newUrl': 'resources_red_dot.png'
+            'tests/resources/red_dot.png': {
+                'newUrl': 'tests/resources_red_dot.png'
             },
-            'resources/flower.jpg': {
-                'newUrl': 'resources_flower.png'
+            'tests/resources/flower.jpg': {
+                'newUrl': 'tests/resources_flower.png'
             },
         }
         
@@ -135,8 +135,8 @@ $(document).ready(function(){
         
         var $img = $('img', capturer.$elementToCapture);
         
-        equals($img.eq(0).attr('src'), 'resources_red_dot.png', 'New url ok');
-        equals($img.eq(1).attr('src'), 'resources_flower.png', 'New url ok'); 
+        equals($img.eq(0).attr('src'), 'tests/resources_red_dot.png', 'New url ok');
+        equals($img.eq(1).attr('src'), 'tests/resources_flower.png', 'New url ok'); 
     });
 	
     test("updateStyleUrls()", function() {
@@ -149,7 +149,7 @@ $(document).ready(function(){
 		var cssFileLocation = currentLocationParsed.protocol + '://' + 
 		      currentLocationParsed.authority + 
 			  currentLocationParsed.directory + 
-			  'resources/capture_css_test_image_url.css';
+			  'tests/resources/capture_css_test_image_url.css';
 		var flowerUrl = new URL('flower.jpg', cssFileLocation);
 		var absoluteFlowerUrl = new URL(flowerUrl.absoluteUrl);
 		var newFlowerUrl = ImageCapturer.filenameFromPath(absoluteFlowerUrl);

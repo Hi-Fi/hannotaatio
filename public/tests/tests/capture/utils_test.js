@@ -76,7 +76,7 @@ $(document).ready(function(){
         stop();
         stop();
         
-        var existingImage = new URL("resources/red_dot.png");
+        var existingImage = new URL("tests/resources/red_dot.png");
 		CaptureUtils.imageURLToBase64(existingImage, function(data, url) {
 		    notEqual(null, data, 'Data should not be null');
 		    equal(existingImage, url, 'URL should remain the same');
@@ -84,7 +84,7 @@ $(document).ready(function(){
 		    start();
 		});
 		
-		var notExistingImage = new URL("resources/red_dot-not-existing.png");
+		var notExistingImage = new URL("tests/resources/red_dot-not-existing.png");
 		CaptureUtils.imageURLToBase64(notExistingImage, function(data, url) {
 		    equal(null, data, 'Data should be null if image does not exist');
 		    equal(notExistingImage, url, 'URL should remain the same');
@@ -103,11 +103,11 @@ $(document).ready(function(){
 		// different canvas implementation.
 		// Resutl1 matches to Chrome and Safari (WebKit)
 		// Result2 matches to Firefox
-		var result1 = "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAKUlEQVQIHWP8//8/AwMjI5CAgv//wTyEAFScCaYAmcYhCDQDWRUDkA8AEGsMAtJaFngAAAAASUVORK5CYII=";
+		var result1 = "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAG0lEQVQIW2NkAIL/YAQBjEDEiCwAlyBeEJuZAE0nCgCf3xSJAAAAAElFTkSuQmCC";
 		var result2 = "iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQImWNgYGBg+M/A8B+GGdAF4BLEC2IzEwCVRCnXHdHSggAAAABJRU5ErkJggg==";
 
 		var actual = CaptureUtils.imgToBase64($('#red_dot').get(0));
-
+		console.log(actual)
 		ok(actual === result1 || actual === result2, 'Converted image to base64');
 	});
 
