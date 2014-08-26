@@ -27,9 +27,10 @@ class FileSaver
 	
 	s3 = AWS::S3.new
 	filename = "#{uuid}/#{path}"
-	key = File.basename(filename)
-	s3.buckets[Rails.configuration.s3_bucket].acl = :public_read
-    s3.buckets[Rails.configuration.s3_bucket].objects[key].write(file: content, content_type: mime_type)
+	obj = s3.buckets[Rails.configuration.s3_bucket].objects[filename]	
+    obj.write(content)
+	obj.copy_to(obj.key, :content_type => mime_type)
+	obj.acl = :public_read
     
     Rails.logger.info "File saved to S3 region: #{Rails.configuration.s3_region}, bucket: #{Rails.configuration.s3_bucket}, object: #{uuid}/#{path}"
   end

@@ -14,7 +14,7 @@ class FileSaverTest < ActiveSupport::TestCase
 	else
 		s3 = AWS::S3.new
 		bucket = s3.buckets[Rails.configuration.s3_bucket]
-		object = bucket.objects["documents/test_doc.txt"]
+		object = bucket.objects["1234-5678-90/documents/test_doc.txt"]
 		object.delete
 	end
   end
@@ -59,7 +59,7 @@ class FileSaverTest < ActiveSupport::TestCase
     
     # Test existence and content
     client = HTTPClient.new
-    res = client.get("https://#{Rails.configuration.s3_server}/#{Rails.configuration.s3_bucket}/#{uuid}/#{path}")
+    res = client.get("https://s3-#{Rails.configuration.s3_region}.amazonaws.com/#{Rails.configuration.s3_bucket}/#{uuid}/#{path}")
     assert_equal res.body, "test"
   end
   
@@ -107,7 +107,7 @@ class FileSaverTest < ActiveSupport::TestCase
     
     # Test existence and content
     client = HTTPClient.new
-    res = client.get("https://#{Rails.configuration.s3_server}/#{Rails.configuration.s3_bucket}/#{uuid}/#{path}");
+    res = client.get("https://s3-#{Rails.configuration.s3_region}.amazonaws.com/#{Rails.configuration.s3_bucket}/#{uuid}/#{path}");
     assert_not_equal res.body, "test"
     
     # Delete unexisting file (should not raise error)
