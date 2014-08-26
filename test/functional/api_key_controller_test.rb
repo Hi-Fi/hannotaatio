@@ -11,25 +11,25 @@ class ApiKeyControllerTest < ActionController::TestCase
   end
   
   test "should create valid api key" do
-    post :create, {:api_key => {:email => 'hannotaatio_tester@futurice.com'}}
+    post :create, :api_key => {:email => 'hannotaatio_tester@futurice.com'}
     assert_response 201
     
     json = JSON.parse(@response.body)
-    assert valid_api_key? json['api_key']['api_key']
+    assert valid_api_key? json['api_key']
   end
 
   test "shouldn't create api key without valid email" do
     
     # Without email
-    post :create, {:api_key => {}}
+    post :create, :api_key => {:email => ''}
     assert_response 400
     
     # With email
-    post :create, {:api_key => {:email => 'hannotaatio_tester@futurice.com'}}
+    post :create, :api_key => {:email => 'hannotaatio_tester@futurice.com'}
     assert_response 201
     
     # With ínvalidate email
-    post :create, {:api_key => {:email => 'hannotaatio_tester@futurice@futurice.com'}}
+    post :create, :api_key => {:email => 'hannotaatio_tester@futurice@futurice.com'}
     assert_response 400
   end
 end

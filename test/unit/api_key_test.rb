@@ -23,7 +23,7 @@ class ApiKeyTest < ActiveSupport::TestCase
     assert valid_api_key? api_key.api_key
   end
   
-  test "shouldn't create api key without valid email" do
+  test "shouldn't create api key with invalid email" do
     # Test without email
     api_key = ApiKey.new
     assert !api_key.save
