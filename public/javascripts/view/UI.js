@@ -35,6 +35,8 @@ UI.prototype.init = function() {
 
     if (this.json && this.info) {
 
+		console.log(this.info);
+		console.log(this.json);
         // Set canvas size in DOM tree
         this.setCanvasSize();
 

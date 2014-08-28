@@ -45,7 +45,7 @@ var Preferences = function(sitePrefs) {
      * Site preferences.
      */
     this.site = {
-        name: 'http://www.example.com',
+        name: document.title,
         version: 1.0
     };
 	
@@ -74,7 +74,12 @@ var Preferences = function(sitePrefs) {
      * http://hannotaatio.futurice.com/ or https://hannotaatio.futurice.com
      * http://localhost:8000/
      */
-    this.hannotaatio_domain = 'https://hannotaatio.futurice.com/'
+    this.hannotaatio_domain = 'http://localhost:3000/';
+	
+	/**
+	*	Prefix, if Hannotaatio isn't at root
+	*/
+	this.hannotaatio_prefix = '';
 
     // Add (and overwrite if needed) custom preferences
     for (key in sitePrefs) {
@@ -84,19 +89,19 @@ var Preferences = function(sitePrefs) {
     // If URLs are not set by custom preferences,
     // let's construct them from domain and path
     if (!this.api_url) {
-        this.api_url = this.hannotaatio_domain + this.api_path;
+        this.api_url = this.hannotaatio_domain + this.hannotaatio_prefix + this.api_path;
     }
 
     if (!this.edit_url) {
-        this.edit_url = this.hannotaatio_domain + this.edit_path;
+        this.edit_url = this.hannotaatio_domain + this.hannotaatio_prefix + this.edit_path;
     }
     
     if(!this.images_url) {
-        this.images_url = this.hannotaatio_domain + this.images_path;
+        this.images_url = this.hannotaatio_domain + this.hannotaatio_prefix + this.images_path;
     }
     
     if(!this.flash_url) {
-        this.flash_url = this.hannotaatio_domain + this.flash_path;
+        this.flash_url = this.hannotaatio_domain + this.hannotaatio_prefix + this.flash_path;
     }
 
 };
