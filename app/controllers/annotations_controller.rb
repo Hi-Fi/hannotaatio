@@ -33,64 +33,65 @@ class AnnotationsController < ApplicationController
 
   def create
     # Parse and validate the post parameters in the request
-    annotation_params = params[:annotation]
-    render :text => "Invalid data in request.", :status => 400 and return if annotation_params.nil?
+    #annotation_params = params[:annotation]
+    #render :text => "Invalid data in request.", :status => 400 and return if annotation_params.nil?
 
     uuid = annotation_params[:uuid]
-    render :text => "Annotation #{uuid} already exists.", :status => 409 and return if Annotation.exists?(:uuid => uuid)
+    if Annotation.where(:uuid => uuid).blank?
+		# Create the annotation, and any additional objects or values that are required
+		@annotation = Annotation.new(annotation_params)
+		@annotation.browser = request.env['HTTP_USER_AGENT']
 
-    # Create the annotation, and any additional objects or values that are required
-    @annotation = Annotation.new(annotation_params)
-    @annotation.browser = request.env['HTTP_USER_AGENT']
-    @annotation.capture_time = Time.at(Float(annotation_params[:capture_time]))
+		# Check API key
+		api_key = ApiKey.find_by_api_key(params[:api_key]);
+		@annotation.api_key = api_key if api_key != nil
 
-    # Check API key
-    api_key = ApiKey.find_by_api_key(params[:api_key]);
-    @annotation.api_key = api_key if api_key != nil
+		# Notification emails
+		notification_emails_params = params[:notification_emails]
+		if notification_emails_params != nil
+		  notification_emails = []
+		  notification_emails_params.each do |notification_email|
+			notification_emails.push NotificationEmail.new(:email => notification_email)
+		  end
+		  
+		  @annotation.notification_emails = notification_emails
+		end
 
-    # Notification emails
-    notification_emails_params = params[:notification_emails]
-    if notification_emails_params != nil
-      notification_emails = []
-      notification_emails_params.each do |notification_email|
-        notification_emails.push NotificationEmail.new(:email => notification_email)
-      end
-      
-      @annotation.notification_emails = notification_emails
-    end
+		if !@annotation.save
+		  render :text => "Failed saving annotation object. Error: #{@annotation.errors}", :status => 500 and return
+		end
 
-    if !@annotation.save
-      render :text => "Failed saving annotation object. Error: #{@annotation.errors}", :status => 500 and return
-    end
+		if request.form_data?
 
-    if request.form_data?
+			if params.has_key?(:capture_encoding)
+				capture_encodings = params[:capture_encoding]
+			else
+				capture_encodings = {}
+			end
 
-        if params.has_key?(:capture_encoding)
-            capture_encodings = params[:capture_encoding]
-        else
-            capture_encodings = {}
-        end
+			capture_files = params[:capture]
+			capture_files.each do |path, data|
+				data = case capture_encodings[path]
+					when "base64" then Base64.decode64(data)
+					else data
+				end
+				file = CapturedFile.new(:annotation => @annotation, :path => path, :content => data)
+				if !file.save
+					logger.warn "Failed saving capture/#{path} for annotation #{uuid}."
+				end
+			end
 
-        capture_files = params[:capture]
-        capture_files.each do |path, data|
-            data = case capture_encodings[path]
-                when "base64" then Base64.decode64(data)
-                else data
-            end
-            file = CapturedFile.new(:annotation => @annotation, :path => path, :content => data)
-            if !file.save
-                logger.warn "Failed saving capture/#{path} for annotation #{uuid}."
-            end
-        end
+		  # TODO: Use some configuration file for resolving the View URL.
+		  view_url = "#{Rails.configuration.view_url}#{uuid}"
 
-      # TODO: Use some configuration file for resolving the View URL.
-      view_url = "#{Rails.configuration.view_url}#{uuid}"
+		  redirect_to view_url and return
+		end
 
-      redirect_to view_url and return
-    end
-
-    # Note: The recipient is assumed to be expecting the response as JSON.
-    render :json => @annotation, :status => 201
+		# Note: The recipient is assumed to be expecting the response as JSON.
+		render :json => @annotation, :status => 201
+	else
+		render :text => "Annotation #{uuid} already exists.", :status => 409 and return
+	end
   end
 
   def destroy
@@ -101,6 +102,12 @@ class AnnotationsController < ApplicationController
     @annotation.destroy
 
     render :text => "Deleted."
+  end
+  
+  private 
+  
+  def annotation_params
+	params.require(:annotation).permit(:uuid, :site_name, :capture_time, :captured_url, :body_width, :body_height)
   end
 
 end

@@ -6,8 +6,8 @@ HannotaatioServerNew::Application.routes.draw do
     
       resources :annotations, :only => [:index, :create], :controller => :hannotations
     
-      get "/capture" =>       "captured_files#index", :via => :get
-      get "/capture/*path" => "captured_files#show", :via => :get
+      get "/capture" =>       "captured_files#index", via: [:get]
+      get "/capture/*path" => "captured_files#show", via: [:get]
     
     end
   

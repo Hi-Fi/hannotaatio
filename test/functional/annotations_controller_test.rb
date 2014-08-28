@@ -43,6 +43,17 @@ http://localhost:3000/annotations?annotation[uuid]=7846-abc5-b349&annotation[sit
                       {:path => '/api/annotations/any-uuid', :method => :get})
   end
 
+  test "no uplicate UUIDs" do
+	    @anno1.destroy
+    @h = {}
+    @anno1.attribute_names.each do |a|
+      @h.store(a.to_sym, @anno1.send(a))
+    end
+    post :create, {:annotation => @h}
+    assert_response 201
+	post :create, {:annotation => @h}
+    assert_response 409
+  end
 
   test "show annotation" do
     get :show, :id => @anno1.uuid, :format => :json

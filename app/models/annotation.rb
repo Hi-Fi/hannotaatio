@@ -23,6 +23,10 @@ class Annotation < ActiveRecord::Base
   
   before_validation :remove_invalid_emails
   
+  
+  def capture_time=(ts)
+	write_attribute :capture_time, DateTime.strptime(ts.to_s, '%s')
+  end
   # Removed invalid emails silently before the annotation is validated and saved
   #
   # Invalid emails should not be saved to the db, but an invalid email shouldn't
