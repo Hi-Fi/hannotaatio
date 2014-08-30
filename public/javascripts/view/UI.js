@@ -34,9 +34,6 @@ var UI = function(uuid, ajax, prefs) {
 UI.prototype.init = function() {
 
     if (this.json && this.info) {
-
-		console.log(this.info);
-		console.log(this.json);
         // Set canvas size in DOM tree
         this.setCanvasSize();
 
@@ -590,7 +587,7 @@ UI.prototype.publish = function() {
  */
 UI.prototype.remove = function() {
     var ui = this;
-    var url = this.info.annotation.captured_url;
+    var url = this.info.captured_url;
 
     var successCallback = function() {
         ui.showDialogWindow(
@@ -716,9 +713,9 @@ UI.prototype.setInfo = function(info) {
 UI.prototype.printInfo = function() {
     var utils = new Utils();
 
-    var origin = this.info.annotation.captured_url;
-    var date = this.info.annotation.created_at;
-    var browser = this.info.annotation.browser;
+    var origin = this.info.captured_url;
+    var date = this.info.created_at;
+    var browser = this.info.browser;
 
     // Format browser data to a nice string
     var browserTidy = utils.detectBrowserOS(browser);
@@ -752,8 +749,8 @@ UI.prototype.restoreDefaultCursor = function() {
  * Sets canvas & iframe size in the DOM tree
  */
 UI.prototype.setCanvasSize = function() {
-    var height = Math.round(this.info.annotation.body_height);
-    var width = Math.round(this.info.annotation.body_width);
+    var height = Math.round(this.info.body_height);
+    var width = Math.round(this.info.body_width);
 
     $('iframe#capture').css('height', height);
     $('div#hannotation-canvas').css('height', height);
@@ -840,7 +837,7 @@ UI.prototype.view = function() {
     log('ui.view');
     var ui = this;
     
-    var origin = this.info.annotation.captured_url;
+    var origin = this.info.captured_url;
 
     // Set up canvas for Hannotations
     var canvas = Raphael('hannotation-canvas');
