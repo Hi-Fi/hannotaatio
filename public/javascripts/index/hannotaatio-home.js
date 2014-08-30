@@ -52,7 +52,7 @@ $(document).ready(function() {
 				$("#installation-code").html('' +
 '&lt;script type="text/javascript"&gt;\n' + 
 '  window._hannotaatioPreferences = {\n'+
-'    apiKey: \'' + response.api_key.api_key + '\'\n'+
+'    apiKey: \'' + response.api_key + '\'\n'+
 '  }\n'+
 '&lt;/script&gt;\n'+
 '&lt;script type="text/javascript"&gt;\n'+
@@ -62,10 +62,7 @@ $(document).ready(function() {
 '    s.parentNode.insertBefore(h, s);\n'+
 '  })(document, \'script\');\n'+
 '&lt;/script&gt;\n');
-//'&lt;script type="text/javascript"\n'+ 
-//'  src="https://hannotaatio.futurice.com/capturer/capturetool.js"&gt;\n'+
-//'&lt;/script&gt;\n');
-				$('#api-successful').html('Your API key: <strong>' + response.api_key.api_key + '</strong><br />The key has been sent to your email if you filled an email address field.');
+				$('#api-successful').html('Your API key: <strong>' + response.api_key + '</strong><br />The key has been sent to your email if you filled an email address field.');
 
 				copyClipboard('#api-code-clipboard');
 

@@ -1,5 +1,6 @@
 HannotaatioServerNew::Application.routes.draw do
 
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   scope "/api" do
 
     resources :annotations, :only => [:show, :create, :destroy] do

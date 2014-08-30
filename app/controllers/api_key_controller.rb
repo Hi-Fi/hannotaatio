@@ -21,7 +21,7 @@ class ApiKeyController < ApplicationController
   
   private
 	def api_key_params
-		params.require(:api_key).permit(:api_key, :email)
+		params.fetch(:api_key, {}).permit(:api_key, :email)
 	end
 
 end
