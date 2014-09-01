@@ -9,6 +9,13 @@ var Preferences = function(sitePrefs) {
     if (!sitePrefs) {
         sitePrefs = {};
     }
+	
+	/**
+     *	Select which tool to use to take captures
+	 *	capturer: captures HTML and handles CSS and images it's own way
+	 *	html2canvas: Creates image (canvas) from page.
+	 */
+	 this.captureTool = "html2canvas";
 
     /**
      * Load the images and encode them to URI scheme base64

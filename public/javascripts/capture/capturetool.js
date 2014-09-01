@@ -13,6 +13,8 @@
 
 // @IMAGE_CAPTURER@
 
+// @HTML2CANVAS@
+
 $(document).ready(function($){
 
     /**
@@ -27,32 +29,60 @@ $(document).ready(function($){
     
     var ui = new CaptureUI(prefs);
     ui.createButton(document.body, function() {
-
+	
         // Notify about ongoing capture
         ui.createDialog(document.body);
         ui.showStatus('<p>Capturing page...</p>', 'LOADER');
         
-        var capturer = new Capturer($('html'), prefs);
-        var uploader = new Uploader(prefs);
-        
-        setTimeout(function(){
-            
-            // Strip <script> tags
-            capturer.stripScriptTags();
-            
-            // Remove capture controls
-            capturer.removeCaptureControls();
-            
-            capturer.captureStylesheets(function() {
-                capturer.captureImages(function() {
-                    ui.showStatus('<p style="font-size: 20px">' +
-                    'Capture successful!</p>' +
-                    '<p>Redirecting you to the edit page...', 'SUCCESS');
-                    uploader.uploadForm(capturer);
-                });
-            });
-            
-            return false;
-        }, 1000);
-    });
+		var uploader = new Uploader(prefs);
+		
+		if (prefs.captureTool==="capturer"){
+			window.console.log("Using Capturer");
+			var capturer = new Capturer($('html'), prefs);
+			
+			
+			setTimeout(function(){
+				
+				// Strip <script> tags
+				capturer.stripScriptTags();
+				
+				// Remove capture controls
+				capturer.removeCaptureControls();
+				
+				capturer.captureStylesheets(function() {
+					capturer.captureImages(function() {
+						ui.showStatus('<p style="font-size: 20px">' +
+						'Capture successful!</p>' +
+						'<p>Redirecting you to the edit page...', 'SUCCESS');
+						uploader.uploadForm(capturer);
+					});
+				});
+				
+				return false;
+			}, 1000);
+		};
+		
+		if (prefs.captureTool==="html2canvas"){
+			window.console.log("Using html2canvas");
+			var h2c = new h2ccapture(prefs);
+			h2c.removeCaptureControls();
+			
+			setTimeout(function(){				
+				html2canvas(document.body, {
+					onrendered: function(canvas) {
+						h2c.htmlContent = "<html><head></head><body><img src='"+canvas.toDataURL()+"' /></body></html>"
+
+						ui.showStatus('<p style="font-size: 20px">' +
+						'Capture successful!</p>' +
+						'<p>Redirecting you to the edit page...', 'SUCCESS');
+						uploader.uploadForm(h2c);
+					}
+				});
+				return false;
+			}, 1000);
+		};
+		
+		
+		});
+		
 });

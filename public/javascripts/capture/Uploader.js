@@ -129,4 +129,64 @@ Uploader.prototype.uploadForm = function(capturer) {
     $form.submit();
 };
 
+Uploader.prototype.uploadCanvas = function(canvas) {
+    var annotations_url = this.prefs.api_url + 'annotations/' + '?api_key=' + this.prefs.apiKey;
+	var uuid = canvas.uuid;
+	var annotationMetadata = canvas.getAnnotationMetadata();
+	var htmlContent = canvas.getHtmlContent();
+	var doctype = canvas.getDoctype();
+	var content = doctype !== null ? doctype + '\n' + htmlContent : htmlContent;
+	var capturedImages = canvas.capturedImages;
+
+    var formFields = {};
+
+    $.each(annotationMetadata.annotation, function(key, value) {
+		formFields['annotation[' + key + ']'] = value;
+    });
+	
+	// Page
+    formFields['capture[page.html]'] = content;
+
+	// Images
+	if(capturedImages != null) {
+		$.each(capturedImages, function(index, value) {
+			var image = value;
+            formFields['capture_encoding[' + image.newUrl + ']'] = 'base64';
+            formFields['capture[' + image.newUrl + ']'] = image.data;
+		});
+	}
+
+    // Create a form holding the data to save.
+    // Important: Be shure to set the accept-charset to UTF-8
+    var $form = $('<form action="' + annotations_url +
+            '" method="post" accept-charset="utf-8" id="apiForm"></form>');
+
+    // Populate the form with the form fields to send.
+    // The key and value attributes are set using function calls rather than
+    // inlining their contents to the html string used for creating the element.
+    // When passing the values as function arguments they can contain any
+    // characters, and we do not have to worry about proper escaping in the html
+    // text.
+    var element = null;
+    $.each(formFields, function(key, value) {
+        $element = $("<input type='text'/>");
+        $element.attr('name', key);
+        $element.val(value);
+        $form.append($element);
+    });
+	
+	$.each(this.prefs.notificationEmails, function(key, value) {
+		$element = $("<input type='text'/>");
+        $element.attr('name', 'notification_emails[]');
+        $element.val(value);
+        $form.append($element);
+	});
+
+    $form.hide();
+    $('body').append($form);
+
+    $form.submit();
+};
+
+
 // (function(){ /* test coverage for JSCoverage */ })();

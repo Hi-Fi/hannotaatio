@@ -7,6 +7,7 @@ chmod +x *
 # Use Google Closure Compiler to pack the code
 
 SRC_CAPTURE=../public/javascripts/capture
+SRC_HTML2CANVAS=../public/javascripts/html2canvas
 SRC_EDIT=../public/javascripts/view
 TMP=../tmp/javascript
 DIST=../dist
@@ -21,6 +22,8 @@ java -jar ../tools/compiler.jar \
 	--js ${SRC_CAPTURE}/URL.js \
 	--js ${SRC_CAPTURE}/CaptureUtils.js \
 	--js ${SRC_CAPTURE}/Preferences.js \
+	--js ${SRC_HTML2CANVAS}/html2canvas.js \
+	--js ${SRC_HTML2CANVAS}/h2ccapture.js \
 	--js ${SRC_CAPTURE}/Capturer.js \
 	--js ${SRC_CAPTURE}/Uploader.js \
 	--js ${SRC_CAPTURE}/lib/json2.js \

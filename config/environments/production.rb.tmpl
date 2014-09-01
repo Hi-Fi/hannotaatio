@@ -1,8 +1,25 @@
 HannotaatioServerNew::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
   
-  # Set up log directory outside application directory
-  config.paths.log = "/var/log/hannotaatio/#{Rails.env}.log"
+  # Rails 4.1
+  config.eager_load = false
+  # Raise an error on page load if there are pending migrations.
+  config.active_record.migration_error = :page_load
+
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
+  config.assets.debug = false
+
+  # Adds additional error checking when serving assets at runtime.
+  # Checks for improperly declared sprockets dependencies.
+  # Raises helpful error messages.
+  config.assets.raise_runtime_errors = false
+
+  # Raises error for missing translations
+  # config.action_view.raise_on_missing_translations = false
+
+  # End Rails 4.1 settings
 
   # The production environment is meant for finished, "live" apps.
   # Code is not reloaded between requests
@@ -76,7 +93,7 @@ HannotaatioServerNew::Application.configure do
   config.file_storage_local_path = "#{Rails.root}/../hannotaatio-data/"
 
   # Amazon S3 configurations
-  config.s3_server = "s3-eu-west-1.amazonaws.com"
+  config.s3_region = "eu-west-1"
   config.s3_bucket = "futurice-hannotaatio-files"
   
   # Uncomment this to use Amazon SES as the mail server
