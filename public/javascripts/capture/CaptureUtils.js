@@ -15,7 +15,7 @@ var CaptureUtils = function() {
  * (Notice: Static method, no .prototype)
  */
 CaptureUtils.isJQuery = function(obj) {
-    return obj.jquery != null;
+    return obj.jquery !== null;
 };
 
 /**
@@ -28,14 +28,14 @@ CaptureUtils.isJQuery = function(obj) {
  */
 CaptureUtils.clone = function(node) {
     // If the node is a text node, then re-create it rather than clone it
-    var clone = node.nodeType == 3 ? document.createTextNode(node.nodeValue) :
+    var clone = node.nodeType === 3 ? document.createTextNode(node.nodeValue) :
             node.cloneNode(false);
 
     // Recurse
     var child = node.firstChild;
     while (child) {
             // Don't clone script tags
-            if (child.tagName != null &&
+            if (child.tagName !== null &&
                     child.tagName.toLowerCase() === 'script') {
             // Do not clone script tags
             } else {
@@ -61,6 +61,22 @@ CaptureUtils.replaceRelativeUrlFromImg = function($image, currentLocation) {
 	var newSrc = new URL(src, currentLocation);
 
     $image.attr('src', newSrc.absoluteUrl);
+};
+
+/**
+ * Replaces relative url from CSS file loading href attribute with absolute url.
+ *
+ * Notice: You can get the parameters needed from window.location object.
+ *
+ * @param {jQuery} $linkk CSS loading element as a jQuery object.
+ * @param {string} currentLocation Current location (like window.location.href).
+ * location is not given. window.location.href is default
+ */
+CaptureUtils.replaceRelativeUrlFromLink = function($link, currentLocation) {
+    var href = $link.attr('href');
+	var newHref = new URL(href, currentLocation);
+
+    $link.attr('href', newHref.absoluteUrl);
 };
 
 /**
@@ -133,7 +149,7 @@ CaptureUtils.parseURLsFromCSSContent = function(css) {
 	var urlList = [];
 	var matches = css.match(/url\(["']?(.)*?["']?\)/gi);
 	
-	if(matches == null){
+	if(matches === null){
 		return urlList;
 	}
 	
@@ -176,7 +192,7 @@ CaptureUtils.imageURLToBase64 = function(imageUrl, callback) {
         callback(CaptureUtils.imgToBase64(this), imageUrl);
     }).error(function() {
         // Return null data if error occured while loading
-        callback(null, imageUrl)
+        callback(null, imageUrl);
     });
     
     $img.attr('src', imageUrl.absoluteUrl);
@@ -205,8 +221,8 @@ CaptureUtils.isCanvasSupported = function() {
 CaptureUtils.imgToBase64 = function(img) {
 
     // Cannot get data if image or src is null
-    if (CaptureUtils.isCanvasSupported() === false || img == null ||
-            img.src == null) {
+    if (CaptureUtils.isCanvasSupported() === false || img === null ||
+            img.src === null) {
         return null;
     }
 
@@ -264,6 +280,6 @@ CaptureUtils.extensionFromUrl = function(url) {
 	} else {
 		return "";
 	}
-}
+};
 
 // (function(){ /* test coverage for JSCoverage */ })();

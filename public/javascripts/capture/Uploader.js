@@ -89,7 +89,7 @@ Uploader.prototype.uploadForm = function(capturer) {
     formFields['capture[page.html]'] = content;
 
 	// Images
-	if(capturedImages != null) {
+	if(capturedImages !== null) {
 		$.each(capturedImages, function(index, value) {
 			var image = value;
             formFields['capture_encoding[' + image.newUrl + ']'] = 'base64';

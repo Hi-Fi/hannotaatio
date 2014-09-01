@@ -76,6 +76,7 @@ Capturer.prototype.removeCaptureControls = function() {
  */
 Capturer.prototype.captureStylesheets = function(callback) {
     var stylesheetsCaptured = false;
+	var capturer = this;
     
     // Capture by default
     if(!(this.prefs && this.prefs.captureStylesheets === false)) {
@@ -90,7 +91,7 @@ Capturer.prototype.captureStylesheets = function(callback) {
                 var href = styleSheet.href;
                 var hasHref = href !== null &&
                         href !== undefined && href.length > 0;
-			    var stylesheetUrl = new URL(href);
+                var stylesheetUrl = new URL(href);
                 if (hasHref) {
                     if (stylesheetUrl.isSameDomain) {
                         this.captureStylesheet(styleSheet, i);
@@ -103,8 +104,11 @@ Capturer.prototype.captureStylesheets = function(callback) {
                 }
             }
         }
-        stylesheetsCaptured = true
-    }
+        stylesheetsCaptured = true;
+	} else {
+		capturer.replaceRelativeLinkHref();
+		callback(false);
+	}
 
     if (typeof callback === 'function') {
         callback(stylesheetsCaptured);
@@ -121,7 +125,7 @@ Capturer.prototype.captureStylesheets = function(callback) {
 Capturer.prototype.hasCapturableMediaType = function(styleSheet) {
     var media = styleSheet.media;
     // plain 'media' for IE
-    var mediaText = media.mediaText != null ? media.mediaText : media;
+    var mediaText = media.mediaText !== null ? media.mediaText : media;
     var captureMedia = false;
 
     var mediaList = [];
@@ -155,7 +159,7 @@ Capturer.prototype.hasCapturableMediaType = function(styleSheet) {
 Capturer.prototype.captureRules = function(stylesheet) {
     var stylesheetRules = [];
     var stylesheetContent;
-    if (stylesheet.cssText != null) {
+    if (stylesheet.cssText !== null) {
 
             // Capture IE imports
             var captureIEImports = function(stylesheet) {
@@ -172,7 +176,7 @@ Capturer.prototype.captureRules = function(stylesheet) {
                     rules.push(stylesheet.cssText);
 
                     return rules.join(' ');
-            }
+            };
 
             stylesheetContent = captureIEImports(stylesheet);
 
@@ -342,7 +346,7 @@ Capturer.prototype.updateImageUrls = function () {
  */
 Capturer.prototype.updateImgTagUrls = function() {
 	var images = this.capturedImages;
-	if(images == null){
+	if(images === null){
 		return;
 	}
 	
@@ -356,7 +360,7 @@ Capturer.prototype.updateImgTagUrls = function() {
 			$oldImg.after($newImg);
 			$oldImg.remove();
 		}
-	})
+	});
 };
 
 /**
@@ -383,7 +387,7 @@ Capturer.prototype.replaceImg = function(img, $newImg,
  */
 Capturer.prototype.updateStyleUrls = function() {
     var images = this.capturedImages;
-    if(images == null){
+    if(images === null){
         return;
     }
 	
@@ -403,9 +407,9 @@ Capturer.prototype.updateStyleUrls = function() {
 		// IE is not able to change the content of existing style tag
 		// (at least as far as I know...)
 		var styleClass = $currentStyle.attr('class');
-		var $newStyle = $('<style type="text/css" class="' + styleClass + '">' + content + '</style>')
+		var $newStyle = $('<style type="text/css" class="' + styleClass + '">' + content + '</style>');
 			
-		$currentStyle.replaceWith($newStyle)
+		$currentStyle.replaceWith($newStyle);
 	});
 };
 
@@ -434,7 +438,7 @@ Capturer.prototype.getUniqueImageURLs = function() {
 				absoluteImageUrlStrings.push(url.absoluteUrl);
 			}
 		}
-	}
+	};
 
 	// Fetch <img> elements
 	$('img', this.$elementToCapture).each(function() {
@@ -451,7 +455,7 @@ Capturer.prototype.getUniqueImageURLs = function() {
 	});
 
 	return imageUrls;
-}
+};
 
 /**
  * Iterates through all img elements and replaces their
@@ -460,6 +464,20 @@ Capturer.prototype.getUniqueImageURLs = function() {
 Capturer.prototype.replaceRelativeImgUrls = function() {
     $('img', this.$elementToCapture).each(function() {
         CaptureUtils.replaceRelativeUrlFromImg($(this));
+    });
+};
+
+/**
+ * Iterates through all link elements and replaces their
+ * relative url with absolute url if needed.
+ */
+Capturer.prototype.replaceRelativeLinkHref = function() {
+    $('link', this.$elementToCapture).each(function() {
+        CaptureUtils.replaceRelativeUrlFromLink($(this));
+    });
+	$('style', this.$elementToCapture).each(function() {
+        var newStyle = CaptureUtils.replaceRelativeUrlsFromCSSRule($(this).text());
+		$(this).text(newStyle);
     });
 };
 
@@ -515,14 +533,14 @@ Capturer.prototype.getAnnotationMetadata = function() {
 Capturer.prototype.captureDoctype = function() {
     var doctype = document.doctype;
 
-    if (doctype == null) {
+    if (doctype === null) {
         // No doctype or IE
         var firstChild = document.childNodes[0];
 
         // IE mis-parses doctype as a Comment element
         var firstChildContent = firstChild.text;
 
-        if (firstChildContent != null &&
+        if (firstChildContent !== null &&
                 firstChildContent.indexOf('<!DOCTYPE') !== -1) {
             // Is IE and firstChild is doctype element!!
             return firstChildContent;
@@ -535,12 +553,12 @@ Capturer.prototype.captureDoctype = function() {
     var publicId = doctype.publicId;
     var systemId = doctype.systemId;
 
-    if (publicId == null || systemId == null) {
+    if (publicId === null || systemId === null) {
         // No publicId or systemId, no idea why...
         return null;
     }
 
-    if (publicId.length == 0 || systemId.length == 0) {
+    if (publicId.length === 0 || systemId.length === 0) {
         // publicId and systemId length 0. Probably HTML5
         return '<!DOCTYPE HTML>';
     }
@@ -548,7 +566,7 @@ Capturer.prototype.captureDoctype = function() {
     var isXHTML = publicId.indexOf('XHTML') !== -1;
     var html = isXHTML ? 'html' : 'HTML';
 
-    var doctype = '<!DOCTYPE ' + html + ' PUBLIC "' + publicId + '" "' +
+    doctype = '<!DOCTYPE ' + html + ' PUBLIC "' + publicId + '" "' +
         systemId + '">';
 
     return doctype;
