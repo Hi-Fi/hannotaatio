@@ -82,14 +82,14 @@ h2ccapture.prototype.getAnnotationMetadata = function() {
 h2ccapture.prototype.captureDoctype = function() {
     var doctype = document.doctype;
 
-    if (doctype == null) {
+    if (doctype === null) {
         // No doctype or IE
         var firstChild = document.childNodes[0];
 
         // IE mis-parses doctype as a Comment element
         var firstChildContent = firstChild.text;
 
-        if (firstChildContent != null &&
+        if (firstChildContent !== null &&
                 firstChildContent.indexOf('<!DOCTYPE') !== -1) {
             // Is IE and firstChild is doctype element!!
             return firstChildContent;
@@ -102,12 +102,12 @@ h2ccapture.prototype.captureDoctype = function() {
     var publicId = doctype.publicId;
     var systemId = doctype.systemId;
 
-    if (publicId == null || systemId == null) {
+    if (publicId === null || systemId === null) {
         // No publicId or systemId, no idea why...
         return null;
     }
 
-    if (publicId.length == 0 || systemId.length == 0) {
+    if (publicId.length === 0 || systemId.length === 0) {
         // publicId and systemId length 0. Probably HTML5
         return '<!DOCTYPE HTML>';
     }
@@ -115,7 +115,7 @@ h2ccapture.prototype.captureDoctype = function() {
     var isXHTML = publicId.indexOf('XHTML') !== -1;
     var html = isXHTML ? 'html' : 'HTML';
 
-    var doctype = '<!DOCTYPE ' + html + ' PUBLIC "' + publicId + '" "' +
+    doctype = '<!DOCTYPE ' + html + ' PUBLIC "' + publicId + '" "' +
         systemId + '">';
 
     return doctype;

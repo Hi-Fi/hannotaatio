@@ -77,7 +77,7 @@ Uploader.prototype.uploadForm = function(capturer) {
 	var htmlContent = capturer.getHtmlContent();
 	var doctype = capturer.getDoctype();
 	var content = doctype !== null ? doctype + '\n' + htmlContent : htmlContent;
-	var capturedImages = capturer.capturedImages;
+	var capturedImages = capturer.capturedImages || null;
 
     var formFields = {};
 
@@ -148,7 +148,7 @@ Uploader.prototype.uploadCanvas = function(canvas) {
     formFields['capture[page.html]'] = content;
 
 	// Images
-	if(capturedImages != null) {
+	if(capturedImages !== null) {
 		$.each(capturedImages, function(index, value) {
 			var image = value;
             formFields['capture_encoding[' + image.newUrl + ']'] = 'base64';

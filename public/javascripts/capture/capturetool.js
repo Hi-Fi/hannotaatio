@@ -15,6 +15,8 @@
 
 // @HTML2CANVAS@
 
+// @H2CCAPTURE@
+
 $(document).ready(function($){
 
     /**
@@ -60,7 +62,7 @@ $(document).ready(function($){
 				
 				return false;
 			}, 1000);
-		};
+		}
 		
 		if (prefs.captureTool==="html2canvas"){
 			window.console.log("Using html2canvas");
@@ -70,7 +72,7 @@ $(document).ready(function($){
 			setTimeout(function(){				
 				html2canvas(document.body, {
 					onrendered: function(canvas) {
-						h2c.htmlContent = "<html><head></head><body><img src='"+canvas.toDataURL()+"' /></body></html>"
+						h2c.htmlContent = "<html><head></head><body><img src='"+canvas.toDataURL()+"' /></body></html>";
 
 						ui.showStatus('<p style="font-size: 20px">' +
 						'Capture successful!</p>' +
@@ -80,7 +82,7 @@ $(document).ready(function($){
 				});
 				return false;
 			}, 1000);
-		};
+		}
 		
 		
 		});
